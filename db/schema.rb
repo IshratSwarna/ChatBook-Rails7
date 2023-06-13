@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_11_050325) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_13_190431) do
   create_table "chat_rooms", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.boolean "is_private", default: false
@@ -28,6 +28,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_11_050325) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
+  create_table "participants", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "chat_room_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_room_id"], name: "index_participants_on_chat_room_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -42,4 +51,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_11_050325) do
 
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "messages", "users"
+  add_foreign_key "participants", "chat_rooms"
+  add_foreign_key "participants", "users"
 end

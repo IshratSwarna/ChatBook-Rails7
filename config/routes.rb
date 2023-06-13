@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'users/show'
   resources :chat_rooms do 
     resources :messages
   end
