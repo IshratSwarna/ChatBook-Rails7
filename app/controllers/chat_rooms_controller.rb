@@ -1,5 +1,6 @@
 class ChatRoomsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_status
 
   def index
     @chat_room = ChatRoom.new
@@ -32,5 +33,9 @@ class ChatRoomsController < ApplicationController
 
   def chat_room_params
     params.require(:chat_room).permit(:title)
+  end
+
+  def set_status 
+    current_user.update!(status: User.statuses[:online]) if current_user
   end
 end

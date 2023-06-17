@@ -1,3 +1,11 @@
-<div>
-<%= link_to user.email, user %>
+<div class="row">
+  <div class="col-2 icon-container">
+    <%= turbo_stream_from "user_status" %>
+    <div>
+      <%= render "users/status", user: user %>
+    </div>
+  </div>
+  <div class="col-10">
+    <%= link_to user.email, user, class:'ms-2 me-auto pt-5', data: {turbo: "false"} %>
+  </div>
 </div>
