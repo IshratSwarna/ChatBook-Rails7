@@ -1,0 +1,6 @@
+:scheduler:
+  :schedule:
+    delete_notification:
+      cron: "* * * * *"
+      class: "DeleteNotificationScheduler"
+      queue: "default"

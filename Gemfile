@@ -78,3 +78,5 @@ gem "hotwire-rails", "~> 0.1.3"
 gem "sidekiq", "~> 7.1"
 
 gem "noticed", "~> 1.6"
+
+gem "sidekiq-scheduler", "~> 5.0"

@@ -24,8 +24,4 @@ class Message < ApplicationRecord
                             locals: {user: user, chat_room:, unread: true }
     end
   end
-
-  def notify_new_msg
-    NotifyNewMsgJob.perform_in(5.seconds, user.id)
-  end
 end
