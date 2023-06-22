@@ -2,7 +2,7 @@
   <% if unread %>
     <span>Unread:</span>
   <% end %>
-  <span><%= user.email %></span>
+  <span><%= link_to user.email, user, data: {turbo: "false"} %></span>
   <% if chat_room.is_private %>
   sent a new message
   <% else %>
