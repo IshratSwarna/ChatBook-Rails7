@@ -2,6 +2,7 @@
 
 <% if current_user %>
   <%= link_to 'Start Chatting', chat_rooms_path %>
+  <%= link_to 'Monitor Job', sidekiq_web_path %>
   <%= button_to 'LogOut', destroy_user_session_path, method: :delete %>
 <% else %>
   <%= link_to 'LogIn', new_user_session_path %>

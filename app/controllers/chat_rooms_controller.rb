@@ -6,6 +6,8 @@ class ChatRoomsController < ApplicationController
     @chat_room = ChatRoom.new
     @chat_rooms = ChatRoom.public_rooms
     @users = User.all_except(current_user)
+    current_user.notifications.mark_as_read!
+    @notifications = current_user.notifications.reverse
   end
 
   def new
@@ -26,6 +28,9 @@ class ChatRoomsController < ApplicationController
     @messages = @single_room.messages.order(created_at: :asc)
 
     @users = User.all_except(current_user)
+    
+    current_user.notifications.mark_as_read!
+    @notifications = current_user.notifications.reverse
     render 'index'
   end
 

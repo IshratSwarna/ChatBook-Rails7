@@ -3,6 +3,7 @@ class ChatRoom < ApplicationRecord
   scope :public_rooms, -> {where(is_private: false)}
   after_create_commit { broadcast_if_public }
   has_many :messages
+  has_many :users
   has_many :participants, dependent: :destroy
 
   def broadcast_if_public 
