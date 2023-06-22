@@ -5,7 +5,7 @@
       <%= render "users/status", user: user %>
     </div>
   </div>
-  <div class="col-10">
-    <%= link_to user.email, user, class:'ms-2 me-auto pt-5', data: {turbo: "false"} %>
+  <div class="col-10 ps-2 pt-1">
+    <%= link_to user.email, user, data: {turbo: "false"} %>
   </div>
 </div>

@@ -30,6 +30,6 @@ class MessageNotification < Noticed::Base
   end
   
   def url
-    chat_room_path(params[:message].chat_room)
+    chat_room_path(params[:chat_room])
   end
 end

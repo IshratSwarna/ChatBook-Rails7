@@ -4,5 +4,5 @@
   <% end %>
   <span><%= user.email %></span>
   sent a message on
-  <span><%= link_to chat_room.title, chat_room %></span>
+  <span><%= link_to chat_room.title, chat_room, data: {turbo: "false"} %></span>
 </div>
