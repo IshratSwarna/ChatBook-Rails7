@@ -6,8 +6,7 @@ class ChatRoomsController < ApplicationController
     @chat_room = ChatRoom.new
     @chat_rooms = ChatRoom.public_rooms
     @users = User.all_except(current_user)
-    current_user.notifications.mark_as_read!
-    @notifications = current_user.notifications.reverse
+    @notifications = current_user.notifications.where(archived: false).reverse
   end
 
   def new
@@ -30,8 +29,12 @@ class ChatRoomsController < ApplicationController
     @users = User.all_except(current_user)
     
     current_user.notifications.mark_as_read!
-    @notifications = current_user.notifications.reverse
+    @notifications = current_user.notifications.where(archived: false).reverse
     render 'index'
+  end
+
+  def archived_notifications
+    @archived_notifications = current_user.notifications.where(archived: true).reverse
   end
 
   private

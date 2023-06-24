@@ -1,0 +1,5 @@
+<div id="notification_container" class="bg-dark text-light" >
+  <%= turbo_frame_tag "notifications" do %>
+    <%= render 'notifications/archived_notifications', user: current_user %>
+  <% end %>
+</div>

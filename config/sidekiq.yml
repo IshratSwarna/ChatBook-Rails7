@@ -1,6 +1,6 @@
 :scheduler:
   :schedule:
-    delete_notification:
-      cron: "* * * * *"
-      class: "DeleteNotificationScheduler"
+    archive_notification:
+      cron: "50 * * * *"
+      class: "ArchiveNotificationScheduler"
       queue: "default"

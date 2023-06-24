@@ -1,0 +1,12 @@
+<% if current_user %>
+  <div class="container">
+    <h4>Archived Notifications</h4>
+    <hr>
+    <% @archived_notifications.each do |notification| %>
+      <%= render notification,
+          user: notification.to_notification.creator,
+          chat_room: notification.to_notification.chat_room,
+          unread: notification.unread? %>
+    <% end %>
+  </div>
+<% end %>

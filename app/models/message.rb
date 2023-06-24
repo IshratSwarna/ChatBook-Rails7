@@ -13,25 +13,25 @@ class Message < ApplicationRecord
     throw :abort unless is_participant
   end
 
+  def msgNotificationWithBroadcast(other_user)
+    MessageNotification.with(message: self).deliver_later(other_user)
+
+    broadcast_prepend_to "notifications_#{other_user.id}",
+                          target: "notifications_#{other_user.id}",
+                          partial: "notifications/notification",
+                          locals: {user: user, chat_room:, unread: true }
+  end
+
   def broadcast_notifications
     if chat_room.is_private
       other_participant = Participant.where.not(user_id: user.id).where(chat_room_id: chat_room.id).first
       other_user = User.find(other_participant.user_id)
-      MessageNotification.with(message: self).deliver_later(other_user)
-
-      broadcast_prepend_to "notifications_#{other_user.id}",
-                            target: "notifications_#{other_user.id}",
-                            partial: "notifications/notification",
-                            locals: {user: user, chat_room:, unread: true }
+      msgNotificationWithBroadcast(other_user)
+      
     else
       other_users = User.all_except(user)
       other_users.each do |other_user|
-        MessageNotification.with(message: self).deliver_later(other_user)
-
-        broadcast_prepend_to "notifications_#{other_user.id}",
-                              target: "notifications_#{other_user.id}",
-                              partial: "notifications/notification",
-                              locals: {user: user, chat_room:, unread: true }
+        msgNotificationWithBroadcast(other_user)
       end
     end
   end

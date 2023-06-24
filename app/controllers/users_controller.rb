@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @messages = @single_room.messages.order(created_at: :asc)
 
     current_user.notifications.mark_as_read!
-    @notifications = current_user.notifications.reverse
+    @notifications = current_user.notifications.where(archived: false).reverse
 
     render 'chat_rooms/index'
   end
