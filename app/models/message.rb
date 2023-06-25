@@ -4,7 +4,19 @@ class Message < ApplicationRecord
   before_create :confirm_participant
   after_create_commit { broadcast_notifications }
   after_create_commit { broadcast_append_to chat_room }
+  has_many_attached :attachments, dependent: :destroy
   has_noticed_notifications
+
+  def chat_attachment(index)
+    target = attachments[index]
+    return unless attachments.attached?
+
+    if target.image?
+      target.variant(resize_to_limit: [150, 150]).processed
+    elsif target.video?
+      target.variant(resize_to_limit: [150, 150]).processed
+    end
+  end
 
   def confirm_participant
     return unless chat_room.is_private
