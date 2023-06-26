@@ -1,8 +1,10 @@
 class User < ApplicationRecord
+  include Devise::JWT::RevocationStrategies::JTIMatcher
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
 
   scope :all_except, -> (user) {where.not(id: user)}
   after_create_commit { broadcast_append_to "users" }
@@ -11,6 +13,10 @@ class User < ApplicationRecord
   has_many :notifications, as: :recipient, dependent: :destroy
 
   enum status: %i[offline away online]
+
+  def jwt_payload
+    super
+  end
 
   def status_to_css
     case status
