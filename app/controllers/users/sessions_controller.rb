@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  respond_to :json
-  skip_before_action :verify_authenticity_token
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -28,39 +26,4 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-  private 
-
-  def respond_with(current_user, _opts = {})
-    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.credentials.fetch(:secret_key_base)).first
-    current_user = User.find(jwt_payload['sub'])
-    if current_user 
-      render json: {
-        status: { 
-          code: 200, message: 'Logged in successfully.',
-          data: { user: UserSerializer.new(current_user).serializable_hash[:data][:attributes] }
-        }
-      }, status: :ok
-    else
-      render json: { 
-        status: 401,
-        message: "Something is wrong."
-      }, status: :unauthorized
-    end
-  end
-
-  def respond_to_on_destroy
-    jwt_payload = JWT.decode(request.headers['Authorization'].split(' ')[1], Rails.application.credentials.fetch(:secret_key_base)).first
-    current_user = User.find(jwt_payload['sub'])
-    if current_user 
-      render json: {
-        status: 200,
-        message: "Logged out successfully"
-      }, status: :ok
-    else
-      render json: { 
-        status: 401,
-        message: "User has no active session."
-      }, status: :unauthorized
-    end
-  end
 end

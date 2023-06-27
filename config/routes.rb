@@ -6,9 +6,20 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
   root 'pages#home'
+  #FOR WEB
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
   }
   get 'user/:id', to: 'users#show', as: 'user'
+  #FOR API 
+  namespace :api do
+    namespace :v1 do
+
+      devise_for :users, controllers: {
+        sessions: 'api/v1/users/sessions',
+        registrations: 'api/v1/users/registrations'
+      }
+    end
+  end
 end
