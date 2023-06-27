@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   #FOR API 
   namespace :api do
     namespace :v1 do
-
+      get '/chat_rooms', to: 'chat_rooms#index'
+      get '/current_user', to: 'current_user#index'
       devise_for :users, controllers: {
         sessions: 'api/v1/users/sessions',
         registrations: 'api/v1/users/registrations'
